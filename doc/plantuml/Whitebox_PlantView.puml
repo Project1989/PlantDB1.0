@@ -1,0 +1,57 @@
+@startuml Whitebox PlantView
+component PlantView as pView {
+    component MainView as mView  
+    component AddPlantView as addPView 
+    component ConfirmRemovePlantView as confRemPView
+    component EditPlantView as editPView
+    component SelectPruningTimeView as selPrunTiView
+    component SelectDBView as selDBView
+    component ConfirmClosingMainView as confClMView
+    component FilterPlantView as filterPView
+    component SearchPlantView as searchPView
+    component NewPatchView as nPaView
+    component SelectPatchView as selPaView
+
+    port " " as p1
+    port " " as p2
+    port " " as p3
+    port " " as p4
+    port " " as p5
+
+
+}
+addPView .up.> mView
+confRemPView ..up.> mView
+selPrunTiView .up.> addPView
+selPrunTiView .up.> editPView
+selPrunTiView -[hidden]right->filterPView
+filterPView ..up.> mView
+confRemPView -[hidden]left-> filterPView 
+confClMView .up.> mView
+editPView .up.> mView
+selDBView .right.> mView
+searchPView .up.> mView
+nPaView .left.> mView
+selPaView .up.> editPView
+selPaView .up.> addPView
+
+label "get_plant_data" as getPData
+label "get_list_of_plants" as getLstOfP
+label "add_plant" as addP
+label "remove_plant" as remP
+label "update_plant" as updP
+
+
+p1 -up-( addP
+p2 -up-( updP
+p3 -up-( remP
+p4 -up-( getPData
+p5 -up-( getLstOfP
+
+mView -up- p1
+mView -up- p2
+mView -up- p3
+mView -up- p4
+mView -up- p5
+
+@enduml

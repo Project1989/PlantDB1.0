@@ -1,0 +1,33 @@
+@startuml Komponenten Diagramm
+[PlantView] as pView
+[PlantModel] as pMdl
+[PlantController] as pCtrlr
+() "get_plant_data" as getPData
+() "get_list_of_plants         " as getLstOfP
+() "get_patch_data" as getPatchData
+() "add_plant" as addP
+() "remove_plant" as remP
+() "update_plant" as updP
+() "add_plant_to_model" as addPToMdl
+() "remove_plant_from_model" as remPFromMdl
+() "update_plant_in_model" as updPInMdl
+
+addPToMdl -down- pMdl
+pCtrlr --( addPToMdl
+remPFromMdl -down- pMdl
+pCtrlr --( remPFromMdl
+updPInMdl -down- pMdl
+pCtrlr --( updPInMdl
+addP -down- pCtrlr
+pView --( addP
+remP -down- pCtrlr
+updP -down- pCtrlr
+pView --( updP
+pView --( remP
+getPData -down- pMdl
+pView --( getPData
+getLstOfP -down- pMdl
+pView -( getLstOfP
+getPatchData -down- pMdl 
+pView --( getPatchData
+@enduml

@@ -1,0 +1,27 @@
+{
+    "pflanze": {
+        "Pflanze2": {
+            "lat-name": "planta2",
+            "Pflanzen-typ": "Strauch",
+            "wasserverbrauch": "gering",
+            "standort": "sonnig",
+            "pflanzort": [
+                "Beet2",
+                "Beet3"
+            ],
+            "rückschnitt-zeitpunkt": [
+                "März",
+                "Oktober"
+            ],
+            "rückschnitt-art": "RückSchn. Beschreibung alternativ",
+            "giftig-katze": "nein",
+            "giftig-mensch": "nein",
+            "bemerkungen": ""
+        }
+    },
+    "Beete": [
+        "Beet1",
+        "Beet2",
+        "Beet3"
+    ]
+}

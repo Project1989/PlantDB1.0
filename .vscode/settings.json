@@ -1,0 +1,14 @@
+{
+    "plantuml.exportOutDir": "doc/images",
+    "plantuml.exportIncludeFolderHeirarchy": false,
+    "plantuml.exportSubFolder": false,
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./tests",
+        "-p",
+        "test_*.py"
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": true
+}

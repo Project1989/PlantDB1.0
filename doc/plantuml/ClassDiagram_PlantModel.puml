@@ -1,0 +1,34 @@
+@startuml Classdiagram PlantModel
+
+class PlantData <<DTO>>{
+    name
+    lat_name
+    plant_type
+    waterconsumption
+    prefered_location
+    location
+    pruning_time
+    pruning_type
+    toxic_cat
+    toxic_human
+    comment
+}
+
+class jsonAbstraction{
+read_json_file()
+update_json_file()
+}
+
+class PlantModel{
+    list_of_plants
+    plant_model_data
+    get_list_of_plants()
+    get_plant_data()
+    get_patch_data()
+    add_plant_to_model()
+    remove_plant_from_model()
+    update_plant_in_model()
+
+}
+
+@enduml
