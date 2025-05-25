@@ -28,9 +28,9 @@ class TestPlantModel(unittest.TestCase):
     def test_get_list_of_plants(self):
         self.assertEqual(self.test_list_of_plants,self.plant_model.get_list_of_plants())   
         
-    def test_get_patch_data(self):
+    def test_get_bed_data(self):
         
-        self.assertEqual(["Beet1","Beet2","Beet3"], self.plant_model.get_patch_data())
+        self.assertEqual(["Beet1","Beet2","Beet3"], self.plant_model.get_bed_data())
         
     def test_get_plant_data(self):
         self.assertEqual(JsonTestDict.json_test_dict["pflanze"]["Pflanze1"],self.plant_model.get_plant_data("Pflanze1"))
@@ -39,18 +39,9 @@ class TestPlantModel(unittest.TestCase):
     def test_add_plant_to_model(self):
         copy("doc/PlantDB_example.json","doc/PlantDB_example_test_copy.json")
         self.assertEqual(False, filecmp.cmp("doc/PlantDB_example_test_copy.json","doc/PlantDB_test_add_plant.json", shallow=False))
-        dto=DTO()
-        dto.name="Pflanze3"
-        dto.lat_name="planta3"
-        dto.plant_type="Blume"
-        dto.waterconsumption="mittel"
-        dto.prefered_location="sonnig"
-        dto.location=["Beet1"]
-        dto.pruning_time=["Januar","Februar"]
-        dto.pruning_type="Rückschnitt bis zu 40cm"
-        dto.toxic_cat="nein"
-        dto.toxic_human="nein"
-        dto.comment="Bienenfreundlich"
+        dto=DTO(name="Pflanze3", lat_name="planta3", plant_type="Blume", waterconsumption="mittel", prefered_location="sonnig", 
+        location=["Beet1"], pruning_time=["Januar","Februar"], pruning_type="Rückschnitt bis zu 40cm", toxic_cat="nein",
+        toxic_human="nein", comment="Bienenfreundlich")
         plant_model = PModel.PlantModel("doc/PlantDB_example_test_copy.json")
         plant_model.add_plant_to_model(dto)
         self.assertEqual(JsonTestDict.json_test_add_plant_dict, plant_model.plant_model_data)
@@ -68,18 +59,9 @@ class TestPlantModel(unittest.TestCase):
     def test_update_plant_in_model(self):
         copy("doc/PlantDB_example.json","doc/PlantDB_example_test_copy.json")
         self.assertEqual(False, filecmp.cmp("doc/PlantDB_example_test_copy.json","doc/PlantDB_test_update_plant.json", shallow=False))
-        dto=DTO()
-        dto.name="Pflanze1"
-        dto.lat_name="planta1.1"
-        dto.plant_type="Strauch"
-        dto.waterconsumption="hoch"
-        dto.prefered_location="sonnig"
-        dto.location=["Beet1", "Beet2"]
-        dto.pruning_time=["März","April"]
-        dto.pruning_type=""
-        dto.toxic_cat="nein"
-        dto.toxic_human="ja"
-        dto.comment="Insektenfreundlich"
+        dto=DTO(name="Pflanze1", lat_name="planta1.1", plant_type="Strauch", waterconsumption="hoch", prefered_location="sonnig",
+                location=["Beet1", "Beet2"], pruning_time=["März","April"], pruning_type="", toxic_cat="nein",
+                toxic_human="ja", comment="Insektenfreundlich")
         plant_model=PModel.PlantModel("doc/PlantDB_example_test_copy.json")
         plant_model.update_plant_in_model(dto)
         self.assertEqual(JsonTestDict.json_test_update_dict, plant_model.plant_model_data)    

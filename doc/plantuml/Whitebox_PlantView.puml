@@ -9,8 +9,8 @@ component PlantView as pView {
     component ConfirmClosingMainView as confClMView
     component FilterPlantView as filterPView
     component SearchPlantView as searchPView
-    component NewPatchView as nPaView
-    component SelectPatchView as selPaView
+    component NewBedView as nBedView
+    component SelectBedView as selBedView
 
     port " " as p1
     port " " as p2
@@ -31,9 +31,9 @@ confClMView .up.> mView
 editPView .up.> mView
 selDBView .right.> mView
 searchPView .up.> mView
-nPaView .left.> mView
-selPaView .up.> editPView
-selPaView .up.> addPView
+nBedView .left.> mView
+selBedView .up.> editPView
+selBedView .up.> addPView
 
 label "get_plant_data" as getPData
 label "get_list_of_plants" as getLstOfP

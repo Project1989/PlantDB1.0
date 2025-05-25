@@ -10,5 +10,9 @@
         "test_*.py"
     ],
     "python.testing.pytestEnabled": false,
-    "python.testing.unittestEnabled": true
+    "python.testing.unittestEnabled": true,
+    "python.analysis.extraPaths": ["${workspaceFolder}/PlantController","${workspaceFolder}/tests","${workspaceFolder}/PlantModel","${workspaceFolder}/PlantView","${workspaceFolder}/DataTransferObject"],
+    "terminal.integrated.env.windows": {
+        "PYTHONPATH": "${workspaceFolder}/PlantController;${workspaceFolder}/tests;${workspaceFolder}/PlantModel;${workspaceFolder}/PlantView;${workspaceFolder}/DataTransferObject"
+    }
 }

@@ -1,9 +1,9 @@
-import PlantModel.JsonFileHandler as JFileHandler
+from JsonFileHandler import JsonFileHandler as JFileHandler
 
 class PlantModel():
     def __init__(self, db_file):
         self.db_file=db_file
-        self.json_file_handel=JFileHandler.JsonFileHandler()
+        self.json_file_handel=JFileHandler()
         self.plant_model_data = self.json_file_handel.read_json_file(self.db_file)
         self.list_of_plants = self._get_plants_as_list()
     
@@ -13,7 +13,7 @@ class PlantModel():
     def get_list_of_plants(self):
         return self.list_of_plants
     
-    def get_patch_data(self):
+    def get_bed_data(self):
         return self.plant_model_data["Beete"]
     
     def get_plant_data(self, plant_name):
@@ -46,6 +46,20 @@ class PlantModel():
     def update_plant_in_model(self, plant_dto):
         json_dict=self.__convert_dto_to_json_dict(plant_dto)
         self.plant_model_data["pflanze"][plant_dto.name]=json_dict
+        self.json_file_handel.update_json_file(self.db_file,self.plant_model_data)
+        
+    def update_beds(self, bed_data : list):
+        self.plant_model_data["Beete"] = bed_data
+        for plant in self.plant_model_data["pflanze"]:
+            print(plant)
+            local_plant=self.plant_model_data["pflanze"][plant]["pflanzort"]
+            for bed in local_plant:
+                print(bed)
+                if bed not in self.plant_model_data["Beete"]:
+                    print(True)
+                    self.plant_model_data["pflanze"][plant]["pflanzort"].remove(bed) 
+                    print("removed", bed)
+                    
         self.json_file_handel.update_json_file(self.db_file,self.plant_model_data)
         
     

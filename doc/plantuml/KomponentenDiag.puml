@@ -4,7 +4,7 @@
 [PlantController] as pCtrlr
 () "get_plant_data" as getPData
 () "get_list_of_plants         " as getLstOfP
-() "get_patch_data" as getPatchData
+() "get_bed_data" as getBedData
 () "add_plant" as addP
 () "remove_plant" as remP
 () "update_plant" as updP
@@ -28,6 +28,6 @@ getPData -down- pMdl
 pView --( getPData
 getLstOfP -down- pMdl
 pView -( getLstOfP
-getPatchData -down- pMdl 
-pView --( getPatchData
+getBedData -down- pMdl 
+pView --( getBedData
 @enduml

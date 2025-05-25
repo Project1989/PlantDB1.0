@@ -24,7 +24,7 @@ class PlantModel{
     plant_model_data
     get_list_of_plants()
     get_plant_data()
-    get_patch_data()
+    get_bed_data()
     add_plant_to_model()
     remove_plant_from_model()
     update_plant_in_model()

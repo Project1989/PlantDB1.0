@@ -1,14 +1,15 @@
+from dataclasses import dataclass
+@dataclass
 class DTO():
-    def __init__(self):
-        self.name=""
-        self.lat_name=""
-        self.plant_type=""
-        self.waterconsumption=""
-        self.prefered_location=""
-        self.location=[]
-        self.pruning_time=[]
-        self.pruning_type=""
-        self.toxic_cat=True
-        self.toxic_human=True
-        self.comment=""
+        name: str
+        lat_name: str 
+        plant_type: str 
+        waterconsumption: str 
+        prefered_location: str 
+        location: list
+        pruning_time: dict
+        pruning_type: str 
+        toxic_cat: str 
+        toxic_human: str 
+        comment: str 
         
