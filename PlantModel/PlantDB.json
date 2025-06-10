@@ -6,7 +6,9 @@
             "wasserverbrauch": "wenig",
             "standort": "Schatten",
             "pflanzort": [
-                "Beet3"
+                "Beet2",
+                "Beet3",
+                "Beet6"
             ],
             "rückschnitt-zeitpunkt": {
                 "Januar": 0,
@@ -34,8 +36,8 @@
             "standort": "Schatten",
             "pflanzort": [
                 "Beet4",
-                "Beet3",
-                "Beet6"
+                "Beet6",
+                "Beet2"
             ],
             "rückschnitt-zeitpunkt": {
                 "Januar": 0,
@@ -55,6 +57,115 @@
             "giftig-katze": "nein",
             "giftig-mensch": "ja",
             "bemerkungen": "Hallo\n\n\n\n\n\n\n\n\n\nuuzuu\n"
+        },
+        "sdfsdf": {
+            "lat-name": "sdfsdfs",
+            "Pflanzen-typ": "Strauch",
+            "wasserverbrauch": "mittel",
+            "standort": "Halbschatten",
+            "pflanzort": [
+                "Beet5",
+                "Beet6"
+            ],
+            "rückschnitt-zeitpunkt": {
+                "Januar": 0,
+                "Februar": 0,
+                "März": 0,
+                "April": 1,
+                "Mai": 1,
+                "Juni": 0,
+                "Juli": 0,
+                "August": 0,
+                "September": 0,
+                "Oktober": 0,
+                "November": 0,
+                "Dezember": 0
+            },
+            "rückschnitt-art": "sdf\n",
+            "giftig-katze": "ja",
+            "giftig-mensch": "ja",
+            "bemerkungen": "sfds\n"
+        },
+        "dfrgdfgd": {
+            "lat-name": "dfgdfg",
+            "Pflanzen-typ": "Staude",
+            "wasserverbrauch": "mittel",
+            "standort": "Halbschatten",
+            "pflanzort": [
+                "Beet4"
+            ],
+            "rückschnitt-zeitpunkt": {
+                "Januar": 0,
+                "Februar": 0,
+                "März": 0,
+                "April": 0,
+                "Mai": 1,
+                "Juni": 1,
+                "Juli": 0,
+                "August": 0,
+                "September": 0,
+                "Oktober": 0,
+                "November": 0,
+                "Dezember": 0
+            },
+            "rückschnitt-art": "dfgdfg\n",
+            "giftig-katze": "nein",
+            "giftig-mensch": "ja",
+            "bemerkungen": "dfgdfg\n"
+        },
+        "adasd": {
+            "lat-name": "adasd",
+            "Pflanzen-typ": "Strauch",
+            "wasserverbrauch": "mittel",
+            "standort": "Schatten",
+            "pflanzort": [
+                "Beet4"
+            ],
+            "rückschnitt-zeitpunkt": {
+                "Januar": 1,
+                "Februar": 1,
+                "März": 0,
+                "April": 0,
+                "Mai": 0,
+                "Juni": 0,
+                "Juli": 0,
+                "August": 0,
+                "September": 0,
+                "Oktober": 0,
+                "November": 0,
+                "Dezember": 0
+            },
+            "rückschnitt-art": "adasd\n",
+            "giftig-katze": "nein",
+            "giftig-mensch": "nein",
+            "bemerkungen": "asdad\n"
+        },
+        "asdasdafdf": {
+            "lat-name": "dsfsdf",
+            "Pflanzen-typ": "Staude",
+            "wasserverbrauch": "mittel",
+            "standort": "Schatten",
+            "pflanzort": [
+                "Beet5"
+            ],
+            "rückschnitt-zeitpunkt": {
+                "Januar": 0,
+                "Februar": 0,
+                "März": 0,
+                "April": 0,
+                "Mai": 0,
+                "Juni": 0,
+                "Juli": 0,
+                "August": 0,
+                "September": 1,
+                "Oktober": 0,
+                "November": 0,
+                "Dezember": 0
+            },
+            "rückschnitt-art": "sdfsdf\n",
+            "giftig-katze": "ja",
+            "giftig-mensch": "ja",
+            "bemerkungen": "fsdfsdfsfsdf\n"
         }
     },
     "Beete": [

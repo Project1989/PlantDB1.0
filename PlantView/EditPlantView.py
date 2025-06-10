@@ -116,7 +116,7 @@ class AddPlantWindow ():
     
     def update_pruning_month(self,pruning_time_dict):
         self.pruning_time_dict=pruning_time_dict
-        self.label_pruning_back_time_selected.config(text=str([k for k in self.pruning_time_dict if self.pruning_time_dict[k] == 1])) 
+        self.label_pruning_back_time_selected.config(text=[k for k in self.pruning_time_dict if self.pruning_time_dict[k] == 1]) 
     
     def open_select_bed_location_window(self):
           SelectBedWindow(self.update_selected_beds, self.list_of_beds)

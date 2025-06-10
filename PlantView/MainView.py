@@ -1,22 +1,25 @@
 from PlantModel import PlantModel
 from PlantController import PlantController
-from tkinter import Tk, Label,Listbox, LabelFrame, Button
+from tkinter import Tk, Label,Listbox, LabelFrame, Button, Frame
 from tkinter.messagebox import askyesno
 from tkinter.scrolledtext import ScrolledText
 from AddPlantView import AddPlantWindow
 from EditBedView import EditBedView
 
-class PlantDBView:
+class PlantDBView():
     def __init__(self):
+        
         self.data_base="PlantModel/PlantDB.json"
         self.root = Tk()
         self.root.title("Pflanzendatenbank")
-        self.label_mainwindow_caption = Label(self.root, text= "Pflanzendatenbank", font=('times', 25, 'bold')) 
-        self.label_mainwindow_caption.grid(column=0,row=0, columnspan=6)
+        self.main_frame=Frame(self.root)
+        self.main_frame.grid(row=0,column=0, sticky="nswe")
+        self.label_mainwindow_caption = Label(self.main_frame, text= "Pflanzendatenbank", font=('times', 25, 'bold')) 
+        self.label_mainwindow_caption.grid(column=0,row=0, columnspan=2, sticky="nwse")
         self.plant_db_model=PlantModel(self.data_base)
         self.__add_atribute_frame_to_mainview()
         self.__add_initial_list_to_mainview()
-        self.__add_buttons_to_mainview()
+        self.__add_button_frame_to_mainview()
         self.root.protocol("WM_DELETE_WINDOW",self._confirm_closing_main_window)
         self.list_plants.selection_set(0)
         self.update_atribut_label()
@@ -29,39 +32,47 @@ class PlantDBView:
             self.root.destroy()
       
     def __add_initial_list_to_mainview(self):
-        self.list_plants=Listbox(self.root)
-        self.list_plants.grid(column=0, row=1, padx=10)
+        self.list_frame = Frame(self.main_frame)
+        self.list_frame.grid(column=0, row=1, sticky="nwse")
+        self.list_plants=Listbox(self.list_frame)
+        self.list_plants.grid(column=0, row=0, padx=10)
         self.list_plants.insert("end", *self.plant_db_model.get_list_of_plants())
         self.list_plants.bind("<<ListboxSelect>>", self.plant_list_box_on_select)
-        
+    
+    def _update_plant_list(self):
+        self.list_plants.delete(0,"end")
+        self.list_plants.insert("end", *self.plant_db_model.get_list_of_plants())
+            
     def plant_list_box_on_select(self, event):
         self.update_atribut_label()
         
         
-    def __add_buttons_to_mainview(self):
-        BUTTON_ROW=2
+    def __add_button_frame_to_mainview(self):
+        self.button_frame = Frame (self.main_frame)
+        self.button_frame.grid(row=2, column=0, columnspan=2, sticky="nwse")
+        BUTTON_ROW=0
         BUTTON_COL=0
         BUTTON_PAD=5
-        self.button_add_plant = Button(self.root, text="Hinzufügen", command=self.add_plant_button_press)
-        self.button_add_plant.grid(column=BUTTON_COL, row=BUTTON_ROW, padx=BUTTON_PAD, pady=BUTTON_PAD)
-        self.button_remove_plant = Button(self.root, text="Entfernen")
-        self.button_remove_plant.grid(column=BUTTON_COL+1, row=BUTTON_ROW, padx=BUTTON_PAD, pady=BUTTON_PAD)
-        self.button_edit_plant = Button(self.root, text="Bearbeiten")
-        self.button_edit_plant.grid(column=BUTTON_COL+2, row=BUTTON_ROW, padx=BUTTON_PAD, pady=BUTTON_PAD) 
-        self.button_search_plant = Button(self.root, text="Suchen")
-        self.button_search_plant.grid(column=BUTTON_COL+3, row=BUTTON_ROW, padx=BUTTON_PAD, pady=BUTTON_PAD)
-        self.button_filter_plant = Button(self.root, text="Nach Atribut filtern")
-        self.button_filter_plant.grid(column=BUTTON_COL+4, row=BUTTON_ROW, padx=BUTTON_PAD, pady=BUTTON_PAD) 
-        self.button_remove_filter = Button(self.root, text="Filter entfernen")
-        self.button_remove_filter.grid(column=BUTTON_COL+5, row=BUTTON_ROW, padx=BUTTON_PAD, pady=BUTTON_PAD)
-        self.button_edit_bed = Button(self.root, text="Beete Bearbeiten", command=self.edit_bed_button_press)
-        self.button_edit_bed.grid(column=BUTTON_COL, row=BUTTON_ROW + 1, padx=BUTTON_PAD, pady=BUTTON_PAD)
+        self.button_add_plant = Button(self.button_frame, text="Hinzufügen", command=self.add_plant_button_press)
+        self.button_add_plant.grid(column=BUTTON_COL, row=BUTTON_ROW, padx=BUTTON_PAD, pady=BUTTON_PAD, sticky="nwse")
+        self.button_remove_plant = Button(self.button_frame, text="Entfernen")
+        self.button_remove_plant.grid(column=BUTTON_COL+1, row=BUTTON_ROW, padx=BUTTON_PAD, pady=BUTTON_PAD, sticky="nwse")
+        self.button_edit_plant = Button(self.button_frame, text="Bearbeiten")
+        self.button_edit_plant.grid(column=BUTTON_COL+2, row=BUTTON_ROW, padx=BUTTON_PAD, pady=BUTTON_PAD, sticky="nwse") 
+        self.button_search_plant = Button(self.button_frame, text="Suchen")
+        self.button_search_plant.grid(column=BUTTON_COL+3, row=BUTTON_ROW, padx=BUTTON_PAD, pady=BUTTON_PAD, sticky="nwse")
+        self.button_filter_plant = Button(self.button_frame, text="Nach Atribut filtern")
+        self.button_filter_plant.grid(column=BUTTON_COL+4, row=BUTTON_ROW, padx=BUTTON_PAD, pady=BUTTON_PAD, sticky="nwse") 
+        self.button_remove_filter = Button(self.button_frame, text="Filter entfernen")
+        self.button_remove_filter.grid(column=BUTTON_COL+5, row=BUTTON_ROW, padx=BUTTON_PAD, pady=BUTTON_PAD, sticky="nwse")
+        self.button_edit_bed = Button(self.button_frame, text="Beete Bearbeiten", command=self.edit_bed_button_press)
+        self.button_edit_bed.grid(column=BUTTON_COL+6, row=BUTTON_ROW , padx=BUTTON_PAD, pady=BUTTON_PAD, sticky="nwse")
         
     def __add_atribute_frame_to_mainview(self):
         # Labelframe
-        self.atribute_labelframe = LabelFrame(self.root, text="Pflanze")
+        self.atribute_labelframe = LabelFrame(self.main_frame, text="Pflanze")
         self.atribute_labelframe.columnconfigure([1,3], minsize=200)
-        self.atribute_labelframe.grid(column=1, row=1, columnspan=5,padx=10 , pady=10)
+        self.atribute_labelframe.grid(column=1, row=1,padx=10 , pady=10, sticky="nwse")
         # Lat. Name
         self.label_lat_name_text=Label(self.atribute_labelframe, text="Lateinischer Name:")
         self.label_lat_name_text.grid(column=0, row=0)
@@ -140,6 +151,8 @@ class PlantDBView:
     def add_plant_to_db(self, new_plant):
         p_controller=PlantController()
         p_controller.add_plant(self.data_base, new_plant)  
+        self._update_mainview()
+        self._update_plant_list()
         
 
     def edit_bed_button_press(self):
