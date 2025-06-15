@@ -7,7 +7,6 @@
             "standort": "Schatten",
             "pflanzort": [
                 "Beet2",
-                "Beet3",
                 "Beet6"
             ],
             "rückschnitt-zeitpunkt": {
@@ -166,12 +165,53 @@
             "giftig-katze": "ja",
             "giftig-mensch": "ja",
             "bemerkungen": "fsdfsdfsfsdf\n"
+        },
+        "jsjfjsdjf": {
+            "lat-name": "dsjfdjsjf",
+            "Pflanzen-typ": "Strauch",
+            "wasserverbrauch": "hoch",
+            "standort": "Halbschatten",
+            "pflanzort": [
+                "Beet2"
+            ],
+            "rückschnitt-zeitpunkt": {
+                "Januar": 1,
+                "Februar": 0,
+                "März": 0,
+                "April": 0,
+                "Mai": 0,
+                "Juni": 0,
+                "Juli": 0,
+                "August": 0,
+                "September": 1,
+                "Oktober": 0,
+                "November": 1,
+                "Dezember": 0
+            },
+            "rückschnitt-art": "sgdsggfdg\n",
+            "giftig-katze": "ja",
+            "giftig-mensch": "nein",
+            "bemerkungen": "fsdgssgfs\n"
+        },
+        "asdasdadffffffff": {
+            "lat-name": "",
+            "Pflanzen-typ": "",
+            "wasserverbrauch": "",
+            "standort": "",
+            "pflanzort": [],
+            "rückschnitt-zeitpunkt": {},
+            "rückschnitt-art": "\n",
+            "giftig-katze": "",
+            "giftig-mensch": "",
+            "bemerkungen": "\n"
         }
     },
     "Beete": [
         "Beet1",
         "Beet4",
         "Beet5",
-        "Beet6"
+        "Beet6",
+        "Beet2",
+        "Beet7"
     ]
 }

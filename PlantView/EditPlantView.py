@@ -4,7 +4,7 @@ from PlantDBSelectMonthView import SelectMonthWindow
 from SelectBedView import SelectBedWindow
 from DTO import DTO
 
-class AddPlantWindow ():
+class EditPlantWindow ():
     def __init__(self, add_plant_to_db, bed_data):
         self.add_plant_to_db=add_plant_to_db
         self.pruning_time_dict={}

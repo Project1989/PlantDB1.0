@@ -1,4 +1,4 @@
-from tkinter import Toplevel, Checkbutton, Label, IntVar, Button, Tk
+from tkinter import Toplevel, Checkbutton, Label, IntVar, Button
 class SelectMonthWindow():
     def __init__(self, update_pruning_month):
         self.select_month_window=Toplevel()

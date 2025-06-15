@@ -1,33 +1,30 @@
-from tkinter import Toplevel, Label, LabelFrame, Button, Entry, ttk, scrolledtext, END
-from tkinter.messagebox import askyesno
+from tkinter import Toplevel, Label, LabelFrame, Button, Entry, ttk, scrolledtext, Frame, END
+from tkinter.messagebox import askyesno, showinfo
 from PlantDBSelectMonthView import SelectMonthWindow
 from SelectBedView import SelectBedWindow
 from DTO import DTO
 
-class AddPlantWindow ():
-    def __init__(self, add_plant_to_db, bed_data):
-        self.add_plant_to_db=add_plant_to_db
+class AddPlantWindow (Frame):
+    def __init__(self, master):
+        Frame.__init__(self, master)
         self.pruning_time_dict={}
         self.predefined_plant_species_list=["Baum", "Strauch", "Staude", "Zwiebelpflanze", "Bodendecker", "Gemüse", "Obst", "Gräser"]
         self.predefined_water_consumption_list=["wenig","mittel","hoch"]
         self.predefined_prefered_location_list=["Schatten","Halbschatten","Sonne"]
         self.predefined_toxic_list=["ja","nein"]
-        self.list_of_beds = bed_data
+        self.list_of_beds = master.plant_db_model.get_bed_data()
         self.list_of_selected_beds= []
-        
-        self.window_add_plant=Toplevel()
-        self.window_add_plant.title("Pflanze hinzufügen")
-        self.window_add_plant.protocol("WM_DELETE_WINDOW", self._confirm_closing_window_without_saving)
-        
+        self.master=master
+                
         # Description Label
-        label_function_description=Label(self.window_add_plant, text="Bitte füllen Sie die Felder aus.")
+        label_function_description=Label(self, text="Bitte füllen Sie die Felder aus.")
         label_function_description.grid(column=0, row=0, columnspan=4)
         # Label Frame
-        atribute_labelframe = LabelFrame(self.window_add_plant)
+        atribute_labelframe = LabelFrame(self)
         atribute_labelframe.columnconfigure([1,3], minsize=200)
         atribute_labelframe.grid(column=1, row=1, columnspan=5,padx=10 , pady=10)
         # Name
-        label_name_text=Label(atribute_labelframe, text="Pflanzen Name:")
+        label_name_text=Label(atribute_labelframe, text="Pflanzen-Name:")
         label_name_text.grid(column=0, row=0)
         self.entry_name_value=Entry(atribute_labelframe)
         self.entry_name_value.grid(column=1, row=0)
@@ -91,33 +88,44 @@ class AddPlantWindow ():
         self.cbox_toxic_human_value.grid(column=3, row=4)
         
         
-        button_confirm = Button(self.window_add_plant, text="Hinzufügen", command=self.confirm_add_plant)
-        button_confirm.grid(column=0, row=2)
-        button_cancel = Button(self.window_add_plant, text="Abbrechen", command=self.window_add_plant.destroy)
-        button_cancel.grid(column=1, row=2)
-        
-    def _confirm_closing_window_without_saving(self):
-        answer = askyesno(title="Fenster schließen?", message="Wollen Sie das Fenster ohne zu speichern schließen?")
-        if (answer):
-            self.window_add_plant.destroy() 
-        else:
-            self.window_add_plant.focus() 
-        
+        button_confirm = Button(self, text="Hinzufügen", command= self.confirm_add_plant)
+        button_confirm.grid(column=0, row=2, padx=10, pady=10)
+        button_cancel = Button(self, text="Abbrechen", command= self._confirm_closing_window_without_saving)
+        button_cancel.grid(column=1, row=2, padx=10, pady=10)
+
     def confirm_add_plant(self):
-        dto = DTO(name = self.entry_name_value.get(), lat_name=self.entry_lat_name_value.get(), plant_type = self.cbox_plant_type_value.get(), waterconsumption = self.cbox_water_consumption_value.get(),
-                  prefered_location = self.label_prefered_location_value.get(), location = self.list_of_selected_beds, pruning_time = self.pruning_time_dict,
-                  pruning_type = self.label_pruning_back_type_value.get("1.0", END ), toxic_cat = self.cbox_toxic_cat_value.get(), toxic_human = self.cbox_toxic_human_value.get(),
-                  comment = self.sctext_comment_value.get("1.0", END))
-        self.add_plant_to_db(dto)
-        self.window_add_plant.destroy()
-        
+        if self._is_entry_valid(): 
+            dto = DTO(name = self.entry_name_value.get(), lat_name=self.entry_lat_name_value.get(), plant_type = self.cbox_plant_type_value.get(), waterconsumption = self.cbox_water_consumption_value.get(),
+                      prefered_location = self.label_prefered_location_value.get(), location = self.list_of_selected_beds, pruning_time = self.pruning_time_dict,
+                      pruning_type = self.label_pruning_back_type_value.get("1.0", END ), toxic_cat = self.cbox_toxic_cat_value.get(), toxic_human = self.cbox_toxic_human_value.get(),
+                      comment = self.sctext_comment_value.get("1.0", END))
+            self.master.add_plant_to_db(dto)
+            self.master.switch_frame("PlantDBMainView")
+        else: 
+            showinfo("Fehlender Eintrag", "Bitten füllen Sie den Pflanzennamen aus")
+
+    def _confirm_closing_window_without_saving(self):
+        answer = askyesno(title="Zur Hauptansicht zurückkehren?", message="Wollen Sie ohne zu speichern zur Hauptansicht zurückkehren?")
+        if (answer):
+            self.master.switch_frame("PlantDBMainView") 
+        else:
+            self.focus()
+
+    def _is_entry_valid(self) -> bool:
+        if self.entry_name_value.get() == None or self.entry_name_value.get().isspace():
+            print(self.entry_name_value.get() == None)
+            print(self.entry_name_value.get().isspace())
+            return False
+        else: 
+            return True 
+
     def open_pruning_time_window(self):
         SelectMonthWindow(self.update_pruning_month) 
-    
+
     def update_pruning_month(self,pruning_time_dict):
         self.pruning_time_dict=pruning_time_dict
         self.label_pruning_back_time_selected.config(text=str([k for k in self.pruning_time_dict if self.pruning_time_dict[k] == 1])) 
-    
+
     def open_select_bed_location_window(self):
           SelectBedWindow(self.update_selected_beds, self.list_of_beds)
           

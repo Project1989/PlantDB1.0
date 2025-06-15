@@ -51,15 +51,10 @@ class PlantModel():
     def update_beds(self, bed_data : list):
         self.plant_model_data["Beete"] = bed_data
         for plant in self.plant_model_data["pflanze"]:
-            print(plant)
             local_plant=self.plant_model_data["pflanze"][plant]["pflanzort"][:]
-            print (local_plant)
             for bed in local_plant:
-                print(bed)
                 if bed not in self.plant_model_data["Beete"]:
-                    print(True)
                     self.plant_model_data["pflanze"][plant]["pflanzort"].remove(bed) 
-                    print("removed", bed)
                     
         self.json_file_handel.update_json_file(self.db_file,self.plant_model_data)
         
