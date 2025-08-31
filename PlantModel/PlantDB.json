@@ -193,17 +193,29 @@
             "giftig-mensch": "nein",
             "bemerkungen": "fsdgssgfs\n"
         },
-        "asdasdadffffffff": {
-            "lat-name": "",
-            "Pflanzen-typ": "",
-            "wasserverbrauch": "",
+        "testest": {
+            "lat-name": "aaaaaaaaa",
+            "Pflanzen-typ": "Baum",
+            "wasserverbrauch": "hoch",
+            "standort": "Halbschatten",
+            "pflanzort": [],
+            "rückschnitt-zeitpunkt": {},
+            "rückschnitt-art": "aaaaaaaaa\n\n\n",
+            "giftig-katze": "nein",
+            "giftig-mensch": "ja",
+            "bemerkungen": "aaaaaaaaaa\n\n"
+        },
+        "rrrrr": {
+            "lat-name": "asdasd",
+            "Pflanzen-typ": "Strauch",
+            "wasserverbrauch": "wenig",
             "standort": "",
             "pflanzort": [],
             "rückschnitt-zeitpunkt": {},
-            "rückschnitt-art": "\n",
+            "rückschnitt-art": "\n\n\n\n\n\n\n\n",
             "giftig-katze": "",
             "giftig-mensch": "",
-            "bemerkungen": "\n"
+            "bemerkungen": "\n\n\n\n\n\n\n\n"
         }
     },
     "Beete": [
@@ -212,6 +224,8 @@
         "Beet5",
         "Beet6",
         "Beet2",
-        "Beet7"
+        "Beet7",
+        "Beet10",
+        "Beet11"
     ]
 }

@@ -1,16 +1,13 @@
-from tkinter import Toplevel, Label, Button, Listbox, LabelFrame, Entry,Frame, END
+from tkinter import Label, Button, Listbox, LabelFrame, Entry,Frame, END
 from tkinter.messagebox import askyesno
-from ConfirmRemovalView import ConfirmRemovalView
+from PlantFrame import PlantFrame
 
-class EditBedView (Frame):
+class EditBedView (Frame, PlantFrame):
     def __init__(self, master):
         Frame.__init__(self, master)
         self._master=master
-        self.bed_data=self.master.plant_db_model.get_bed_data()
-        #self.update_bed_data=update_bed_data
-        #self.window_edit_bed=Toplevel()
-        #self.window_edit_bed.title("Beete bearbeiten")
-        #self.window_edit_bed.protocol("WM_DELETE_WINDOW", self._confirm_closing_window_without_saving)
+        self.controller=None
+        self.bed_data=self.controller.get_model().get_bed_data()
         label_function_description=Label(self, text="Entfernen und hinzufügen von Beeten")
         label_function_description.grid(column=0, row=0, columnspan=4)
         
@@ -50,7 +47,7 @@ class EditBedView (Frame):
             self.focus()
         
     def _confirm_edit_bed(self):
-        self.master.update_bed_data(list(self.list_beds.get(0, END)))
+        self.controller.update_beds(list(self.list_beds.get(0, END)))
         self.master.switch_frame("PlantDBMainView")
         
     def _add_to_list(self):

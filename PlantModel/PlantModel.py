@@ -1,14 +1,17 @@
 from JsonFileHandler import JsonFileHandler as JFileHandler
 
 class PlantModel():
-    def __init__(self, db_file):
-        self.db_file=db_file
+    def __init__(self):
+        self.db_file="PlantModel/PlantDB.json"
         self.json_file_handel=JFileHandler()
         self.plant_model_data = self.json_file_handel.read_json_file(self.db_file)
         self.list_of_plants = self._get_plants_as_list()
     
     def _get_plants_as_list(self):
         return list(self.plant_model_data["pflanze"])
+    
+    def _update_list_of_plants(self):
+        self.list_of_plants = self._get_plants_as_list()
     
     def get_list_of_plants(self):
         return self.list_of_plants
@@ -22,10 +25,12 @@ class PlantModel():
     def add_plant_to_model(self, plant_dto):
         json_dict=self.__convert_dto_to_json_dict(plant_dto)
         self.plant_model_data["pflanze"].setdefault(plant_dto.name, json_dict)
+        self._update_list_of_plants()
         self.json_file_handel.update_json_file(self.db_file,self.plant_model_data)
         
     def remove_plant_from_model(self, plant_to_be_removed):
         self.plant_model_data["pflanze"].pop(plant_to_be_removed, None)
+        self._update_list_of_plants()
         self.json_file_handel.update_json_file(self.db_file,self.plant_model_data)
         
         
@@ -43,10 +48,14 @@ class PlantModel():
             "bemerkungen": plant_dto.comment
             }
                
-    def update_plant_in_model(self, plant_dto):
+    def update_plant_in_model(self, plant_to_update, plant_dto):
         json_dict=self.__convert_dto_to_json_dict(plant_dto)
-        self.plant_model_data["pflanze"][plant_dto.name]=json_dict
+        self.plant_model_data["pflanze"][plant_to_update]=json_dict
         self.json_file_handel.update_json_file(self.db_file,self.plant_model_data)
+        if plant_dto.name !=plant_to_update:  
+            self.plant_model_data["pflanze"][plant_dto.name] = self.plant_model_data["pflanze"][plant_to_update]
+            del self.plant_model_data["pflanze"][plant_to_update]
+        self._update_list_of_plants()
         
     def update_beds(self, bed_data : list):
         self.plant_model_data["Beete"] = bed_data
@@ -57,8 +66,5 @@ class PlantModel():
                     self.plant_model_data["pflanze"][plant]["pflanzort"].remove(bed) 
                     
         self.json_file_handel.update_json_file(self.db_file,self.plant_model_data)
-        
-    
-        
         
     

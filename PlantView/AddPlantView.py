@@ -1,12 +1,14 @@
 from tkinter import Toplevel, Label, LabelFrame, Button, Entry, ttk, scrolledtext, Frame, END
 from tkinter.messagebox import askyesno, showinfo
+from PlantFrame import PlantFrame
 from PlantDBSelectMonthView import SelectMonthWindow
 from SelectBedView import SelectBedWindow
 from DTO import DTO
 
-class AddPlantWindow (Frame):
+class AddPlantFrame (Frame, PlantFrame):
     def __init__(self, master):
         Frame.__init__(self, master)
+        PlantFrame.__init__(self)
         self.pruning_time_dict={}
         self.predefined_plant_species_list=["Baum", "Strauch", "Staude", "Zwiebelpflanze", "Bodendecker", "Gemüse", "Obst", "Gräser"]
         self.predefined_water_consumption_list=["wenig","mittel","hoch"]
@@ -15,10 +17,11 @@ class AddPlantWindow (Frame):
         self.list_of_beds = master.plant_db_model.get_bed_data()
         self.list_of_selected_beds= []
         self.master=master
+      
                 
         # Description Label
-        label_function_description=Label(self, text="Bitte füllen Sie die Felder aus.")
-        label_function_description.grid(column=0, row=0, columnspan=4)
+        self.label_function_description=Label(self, text="Bitte füllen Sie die Felder aus.")
+        self.label_function_description.grid(column=0, row=0, columnspan=4)
         # Label Frame
         atribute_labelframe = LabelFrame(self)
         atribute_labelframe.columnconfigure([1,3], minsize=200)
@@ -46,8 +49,8 @@ class AddPlantWindow (Frame):
         # Prefered location
         label_prefered_location_text= Label(atribute_labelframe, text="Bevorzugter Standort:")
         label_prefered_location_text.grid(column=0, row=4)
-        self.label_prefered_location_value= ttk.Combobox(atribute_labelframe,state="readonly", values=self.predefined_prefered_location_list)
-        self.label_prefered_location_value.grid(column=1, row=4)
+        self.cbox_prefered_location_value= ttk.Combobox(atribute_labelframe,state="readonly", values=self.predefined_prefered_location_list)
+        self.cbox_prefered_location_value.grid(column=1, row=4)
         # Comment
         label_comment_text= Label(atribute_labelframe, text="Bemerkung:")
         label_comment_text.grid(column=0, row=5)
@@ -88,18 +91,21 @@ class AddPlantWindow (Frame):
         self.cbox_toxic_human_value.grid(column=3, row=4)
         
         
-        button_confirm = Button(self, text="Hinzufügen", command= self.confirm_add_plant)
-        button_confirm.grid(column=0, row=2, padx=10, pady=10)
+        self.button_confirm = Button(self, text="Hinzufügen", command= self.confirm_add_plant)
+        self.button_confirm.grid(column=0, row=2, padx=10, pady=10)
         button_cancel = Button(self, text="Abbrechen", command= self._confirm_closing_window_without_saving)
         button_cancel.grid(column=1, row=2, padx=10, pady=10)
-
+    
+    def refresh_view(self):
+        pass
+        
     def confirm_add_plant(self):
         if self._is_entry_valid(): 
             dto = DTO(name = self.entry_name_value.get(), lat_name=self.entry_lat_name_value.get(), plant_type = self.cbox_plant_type_value.get(), waterconsumption = self.cbox_water_consumption_value.get(),
-                      prefered_location = self.label_prefered_location_value.get(), location = self.list_of_selected_beds, pruning_time = self.pruning_time_dict,
+                      prefered_location = self.cbox_prefered_location_value.get(), location = self.list_of_selected_beds, pruning_time = self.pruning_time_dict,
                       pruning_type = self.label_pruning_back_type_value.get("1.0", END ), toxic_cat = self.cbox_toxic_cat_value.get(), toxic_human = self.cbox_toxic_human_value.get(),
                       comment = self.sctext_comment_value.get("1.0", END))
-            self.master.add_plant_to_db(dto)
+            self.controller.add_plant(dto)
             self.master.switch_frame("PlantDBMainView")
         else: 
             showinfo("Fehlender Eintrag", "Bitten füllen Sie den Pflanzennamen aus")

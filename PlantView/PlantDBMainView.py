@@ -1,34 +1,41 @@
-from PlantModel import PlantModel
-from PlantController import PlantController
 from tkinter import Label,Listbox, LabelFrame, Button, Frame
 from tkinter.messagebox import askyesno
 from tkinter.scrolledtext import ScrolledText
+from PlantFrame import PlantFrame
 
 
-class PlantDBMainView(Frame):
+class PlantDBMainView(Frame, PlantFrame):
     def __init__(self, master):
         Frame.__init__(self, master)
+        PlantFrame.__init__(self)
         self.master=master
-        master.fetch_newest_model_for_views()
+        self.controller=None
+        self.filter_active=False
+        self.filtered_plant_list=[]
         self.label_mainwindow_caption = Label(self, text= "Pflanzendatenbank", font=('times', 25, 'bold')) 
         self.label_mainwindow_caption.grid(column=0,row=0, columnspan=2, sticky="nwse")
         self.__add_atribute_frame_to_mainview()
         self.__add_initial_data_to_plant_listbox()
         self.__add_button_frame_to_mainview()
+        self.list_plants.bind("<<ListboxSelect>>", lambda event: self.plant_list_box_on_select(event))     
         self.list_plants.selection_set(0)
-        self.update_atribut_label()      
            
     def __add_initial_data_to_plant_listbox(self):
         self.list_frame = Frame(self)
         self.list_frame.grid(column=0, row=1, sticky="nwse")
         self.list_plants=Listbox(self.list_frame)
         self.list_plants.grid(column=0, row=0, padx=10)
-        self.list_plants.insert("end", *self.master.plant_db_model.get_list_of_plants())
-        self.list_plants.bind("<<ListboxSelect>>", lambda event: self.plant_list_box_on_select(event))
     
     def _update_plant_list(self):
         self.list_plants.delete(0,"end")
-        self.list_plants.insert("end", *self.master.plant_db_model.get_list_of_plants())
+        self.list_plants.insert("end", *self.controller.get_model().get_list_of_plants())
+    
+    def refresh_view(self):
+        self._update_plant_list()
+        self.list_plants.select_set(0)
+        self.update_atribut_label()
+        
+         
             
     def plant_list_box_on_select(self, event):
         self.update_atribut_label()
@@ -44,13 +51,13 @@ class PlantDBMainView(Frame):
         self.button_add_plant.grid(column=BUTTON_COL, row=BUTTON_ROW, padx=BUTTON_PAD, pady=BUTTON_PAD, sticky="nwse")
         self.button_remove_plant = Button(self.button_frame, text="Entfernen", command= self._remove_plant)
         self.button_remove_plant.grid(column=BUTTON_COL+1, row=BUTTON_ROW, padx=BUTTON_PAD, pady=BUTTON_PAD, sticky="nwse")
-        self.button_edit_plant = Button(self.button_frame, text="Bearbeiten")
+        self.button_edit_plant = Button(self.button_frame, text="Bearbeiten", command= self.edit_plant_button_press)
         self.button_edit_plant.grid(column=BUTTON_COL+2, row=BUTTON_ROW, padx=BUTTON_PAD, pady=BUTTON_PAD, sticky="nwse") 
         self.button_search_plant = Button(self.button_frame, text="Suchen")
         self.button_search_plant.grid(column=BUTTON_COL+3, row=BUTTON_ROW, padx=BUTTON_PAD, pady=BUTTON_PAD, sticky="nwse")
-        self.button_filter_plant = Button(self.button_frame, text="Nach Atribut filtern")
+        self.button_filter_plant = Button(self.button_frame, text="Nach Atribut filtern", command = self.filter_plant_button_press)
         self.button_filter_plant.grid(column=BUTTON_COL+4, row=BUTTON_ROW, padx=BUTTON_PAD, pady=BUTTON_PAD, sticky="nwse") 
-        self.button_remove_filter = Button(self.button_frame, text="Filter entfernen")
+        self.button_remove_filter = Button(self.button_frame, text="Filter entfernen", command = self.remove_filter)
         self.button_remove_filter.grid(column=BUTTON_COL+5, row=BUTTON_ROW, padx=BUTTON_PAD, pady=BUTTON_PAD, sticky="nwse")
         self.button_edit_bed = Button(self.button_frame, text="Beete Bearbeiten", command = self.edit_bed_button_press)
         self.button_edit_bed.grid(column=BUTTON_COL+6, row=BUTTON_ROW , padx=BUTTON_PAD, pady=BUTTON_PAD, sticky="nwse")
@@ -110,12 +117,15 @@ class PlantDBMainView(Frame):
         self.label_comment_text.grid(column=2, row=4)
         self.text_comment_value= ScrolledText(self.atribute_labelframe, state="disabled", width=30, height=6)
         self.text_comment_value.grid(column=3, row=4, pady=10)
-    
+        
     def add_plant_button_press(self):
         self.master.switch_frame("AddPlantView") 
+        
+    def edit_plant_button_press(self):
+        self.master.switch_frame("EditPlantView", self.list_plants.get(self.list_plants.curselection()))
             
     def update_atribut_label(self):
-        selected_plant=self.master.plant_db_model.get_plant_data( self.list_plants.get(self.list_plants.curselection()))
+        selected_plant=self.controller.get_model().get_plant_data( self.list_plants.get(self.list_plants.curselection()))
         self.atribute_labelframe.config(text= self.list_plants.get(self.list_plants.curselection()))
         self.label_lat_name_value.config(text= selected_plant["lat-name"])
         self.label_plant_type_value.config(text=selected_plant["Pflanzen-typ"])
@@ -137,22 +147,24 @@ class PlantDBMainView(Frame):
      
     def edit_bed_button_press(self):
         self.master.switch_frame("EditBedView")
-                
-    def update_bed_data(self, bed_data : list):
-        p_controller=PlantController()
-        self.plant_db_model.plant_model_data["Beete"] = bed_data
-        p_controller.update_beds(self.master.data_base, bed_data)
-        self.master.fetch_newest_model_for_views()
     
     def _remove_plant(self):
         plant_to_be_removed = self.list_plants.get(self.list_plants.curselection())
         confirm_removal = askyesno("Entfernen der pflanze", message=f"Wollen Sie die Pflanze {plant_to_be_removed} wirklich entferne?")
         if (confirm_removal):
-            p_controller = PlantController()     
-            p_controller.remove_plant(self.master.data_base, plant_to_be_removed)
-            self.master.fetch_newest_model_for_views()
+            self.controller.remove_plant(plant_to_be_removed)
             self._update_plant_list()
         else:
-            self.focus()
+            self.focus() 
+        
+    def remove_plant(self, plant_to_be_removed):     
+        self.controller.remove_plant(self.data_base, plant_to_be_removed)
+        self.refresh_view()
+   
+    def filter_plant_button_press(self):
+        self.master.switch_frame("FilterView")    
     
+    def remove_filter(self):
+        self.filter_active=False
+        self.filtered_plant_list=[]
     

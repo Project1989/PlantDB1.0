@@ -46,9 +46,9 @@ class SelectMonthWindow():
         cb_dec.grid(row=12, sticky="W")
         
         button_confirm=Button(self.select_month_window, text="Auswählen", command=self.press_check_button_month)
-        button_confirm.grid(row=13,column=0, sticky="W")
+        button_confirm.grid(row=13,column=0, sticky="W", padx=10, pady=10)
         button_cancel=Button(self.select_month_window, text="Abbrechen", command=self.select_month_window.destroy)
-        button_cancel.grid(row=13,column=1, sticky="W")
+        button_cancel.grid(row=13,column=1, sticky="W", padx=10, pady=10)
         
     def press_check_button_month(self):
         checked_month_dict={
